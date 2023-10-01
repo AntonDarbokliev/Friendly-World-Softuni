@@ -10,13 +10,13 @@ createController.get("/", (req, res) => {
 
 createController.post('/', async (req,res)=>{
 try{
-    console.log(req.body);
-    // const result =  await create(req.body)
+    const result =  await create(req.body)
     res.redirect('/')
 }catch(err){
     res.render('create',{
         title : 'Create error',
     }); 
+    console.log(err);
 }
 
 
