@@ -21,7 +21,12 @@ async function getAll() {
   return Animal.find({}).lean();
 }
 
+async function getById(id){
+  return Animal.findById(id).lean()
+}
+
 module.exports = {
   create,
   getAll,
+  getById
 };

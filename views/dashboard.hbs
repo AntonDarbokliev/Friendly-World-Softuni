@@ -2,18 +2,17 @@
             <section id="dashboard">
                 <h2>Animals in Need</h2>
                 <ul class="card-wrapper">
-                    <!-- Display a li with information about every post (if any)-->
-                    <li class="card">
-                        <img src="./static/images/animal1.jpg"/>
-                        <p>
-                            <strong>Name: </strong><span class="name">Show</span>
-                        </p>
-                        <p>
-                            <strong>Location: </strong><span class="location">San Diego Zoo</span>
-                        </p>
-                        <p><strong>Need of:</strong><span class="need-of">Medicine</span></p>
-                        <a class="details-btn" href="#">Details</a>
-                    </li>                   
+                    {{#if animals}}
+                    {{#each animals}}
+                    {{> dashboardCard}}
+                    {{/each}}
+                    {{else}}
+                    <div id="no-post">
+                    <h2>There are no animals in need now! </h2>
+                    </div>
+                    {{/if}}
+                        <!-- Display a li with information about every post (if any)-->
+
                 </ul>
 
                 <!-- Display an h2 if there are no posts -->
