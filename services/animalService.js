@@ -25,8 +25,13 @@ async function getById(id){
   return Animal.findById(id).lean()
 }
 
+
+async function findAnimal(location){
+  return  Animal.find({ location: { $regex: location, $options: 'i' }}).lean()
+}
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  findAnimal,
 };
