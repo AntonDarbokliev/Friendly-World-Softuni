@@ -14,7 +14,7 @@ const animalSchema = new Schema({
       ref: "User",
     },
   ],
-  owner: { type: Types.ObjectId },
+  owner: { type: Types.ObjectId , ref : 'User'},
 });
 
 const Animal = model('Animal', animalSchema)
