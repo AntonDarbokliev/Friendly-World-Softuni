@@ -1,51 +1,51 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../static/styles/styles.css" />
     <title>{{title}}</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="wrapper">
-        <header>
-            <!-- Navigation -->
-            <nav>
-                <div>
-                    <a href="/">Home</a>
-                    <a href="/animal/dashboard">Dashboard</a>
-                    <a href="/animal/search">Search</a>
-                </div>
+      <header>
+        <!-- Navigation -->
+        <nav>
+          <div>
+            <a href="/">Home</a>
+            <a href="/animal/dashboard">Dashboard</a>
+            <a href="/animal/search">Search</a>
+          </div>
 
-                <!-- Logged-in users -->
-                <div class="user">
-                    <a href="/animal/create">Add Animal</a>
-                    <a href="/user/logout">Logout</a>
-                </div>
-                <!-- Guest users -->
-                <div class="guest">
-                    <a href="/user/login">Login</a>
-                    <a href="/user/register">Register</a>
-                </div>
+          {{#if isAuthenticated}}
+            <!-- Logged-in users -->
+            <div class="user">
+              <a href="/animal/create">Add Animal</a>
+              <a href="/user/logout">Logout</a>
+            </div>
+          {{else}}
+            <!-- Guest users -->
+            <div class="guest">
+              <a href="/user/login">Login</a>
+              <a href="/user/register">Register</a>
+            </div>
+          {{/if}}
 
-
-            </nav>
-        </header>
-    {{#each errors}}
-    <div id="notifications">
-        <p id="notification-message">{{this}}</p>
-    </div>
-    {{/each}}
-
+        </nav>
+      </header>
+      {{#each errors}}
+        <div id="notifications">
+          <p id="notification-message">{{this}}</p>
+        </div>
+      {{/each}}
 
     </div>
     {{{body}}}
     <footer>
-        <p>@Friendly World</p>
+      <p>@Friendly World</p>
     </footer>
-</body>
+  </body>
 
 </html>
