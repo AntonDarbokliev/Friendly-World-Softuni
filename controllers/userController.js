@@ -1,4 +1,5 @@
 const { register, login } = require("../services/userService.js");
+const { errorHelper } = require("../utils/errorHelpers.js");
 
 const userController = require("express").Router();
 
@@ -18,7 +19,11 @@ userController.post("/register", async (req, res) => {
     res.cookie('auth',token,{httpOnly : true})
     res.redirect('/')
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('register',{
+      title : 'Register',
+      errors
+    })
   }
 });
 
@@ -38,7 +43,11 @@ userController.post("/login", async (req, res) => {
     res.cookie('auth',token,{httpOnly : true})
     res.redirect('/')
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('login',{
+      title : 'Login',
+      errors
+    })
   }
 });
 

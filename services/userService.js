@@ -1,42 +1,37 @@
-const User = require('../models/User.js')
-const createToken = require('../utils/tokenHelper.js')
-const bcrypt = require('bcrypt')
+const User = require("../models/User.js");
+const createToken = require("../utils/tokenHelper.js");
+const bcrypt = require("bcrypt");
 
+async function register(userData) {
+  const existing = await User.findOne({ email: userData.email });
+  if (existing) {
+    throw new Error("A user with this email already exists");
+  }
 
-async function register(userData){
-  
+  const createdUser = await User.create(userData);
 
-    const existing = await User.findOne({email : userData.email})
-    if(existing){
-        throw new Error('A user with this email already exists')
-    }
+  const token = await createToken(createdUser);
 
-    const createdUser = await User.create(userData)
-    const token = await createToken(createdUser)
-
-    return token
+  return token;
 }
 
-async function login(userData){
-    
-    const user = await User.findOne({email : userData.email})
-    if(!user){
-        throw new Error('Wrong email or password no such user')
-    }
+async function login(userData) {
+  const user = await User.findOne({ email: userData.email });
+  if (!user) {
+    throw new Error("No user with this email has been found");
+  }
+  const correctPassword = await bcrypt.compare(userData.password, user.password);
 
-    const correctPassword = bcrypt.compare(userData.password,user.password)
+  if (!correctPassword) {
+    throw new Error("Wrong email or password");
+  }
 
-    if(!correctPassword){
-        throw new Error('Wrong email or password')
-    }
+  const token = await createToken(user);
 
-    const token = await createToken(user)
-
-    return token
+  return token;
 }
-
 
 module.exports = {
-    register,
-    login,
-}
+  register,
+  login,
+};

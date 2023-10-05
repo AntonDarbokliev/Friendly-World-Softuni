@@ -25,14 +25,22 @@
                     <a href="/animal/create">Add Animal</a>
                     <a href="/user/logout">Logout</a>
                 </div>
-
                 <!-- Guest users -->
                 <div class="guest">
                     <a href="/user/login">Login</a>
                     <a href="/user/register">Register</a>
                 </div>
+
+
             </nav>
         </header>
+    {{#each errors}}
+    <div id="notifications">
+        <p id="notification-message">{{this}}</p>
+    </div>
+    {{/each}}
+
+
     </div>
     {{{body}}}
     <footer>
