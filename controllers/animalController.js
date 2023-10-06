@@ -1,5 +1,5 @@
 const animalController = require("express").Router();
-const { create, getAll, findAnimal, edit, deleteAnimal} = require("../services/animalService.js");
+const { create, getAll, findAnimal, edit, deleteAnimal, donate} = require("../services/animalService.js");
 const { getById } = require("../services/animalService.js");
 const { errorHelper } = require("../utils/errorHelpers.js");
 
@@ -26,11 +26,16 @@ animalController.get("/:id/details", async (req, res) => {
   try {
     const animal = await getById(req.params.id);
     const isOwner = req.user?._id == animal.owner._id
-    console.log(isOwner);
+    let hasDonated;
+    if (JSON.parse(JSON.stringify(animal.donations)).includes(req.user._id)) {
+        hasDonated = true
+    }
+
     res.render("details", {
       title: "Animal Details",
       animal,
-      isOwner
+      isOwner,
+      hasDonated
     });
   } catch (err) {
     const errors = errorHelper(err)
@@ -116,6 +121,24 @@ try{
   res.redirect('/animal/dashboard')
 }catch(err){
   res.redirect(`/animal/${id}/details`)
+}
+})
+
+
+animalController.get('/:id/donate',async (req,res) => {
+  const animalId = req.params.id
+  const userId = req.user._id 
+try{
+  
+  await donate(animalId,userId)
+  res.redirect(`/animal/${animalId}/details`)
+}catch(err){
+  const errors = errorHelper(err)
+  res.render('details',{
+    title : 'Details',
+    errors,
+    animal
+  })
 }
 })
 

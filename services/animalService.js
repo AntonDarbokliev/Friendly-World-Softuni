@@ -38,6 +38,10 @@ async function deleteAnimal(id) {
   return Animal.findByIdAndDelete(id);
 }
 
+async function donate(animalId,userId){
+  return Animal.findByIdAndUpdate(animalId,{$push : {donations : userId}})
+}
+
 module.exports = {
   create,
   getAll,
@@ -45,4 +49,5 @@ module.exports = {
   findAnimal,
   edit,
   deleteAnimal,
+  donate,
 };
