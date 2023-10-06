@@ -1,6 +1,6 @@
 const Animal = require("../models/Animal.js");
 
-async function create(animalData) {
+async function create(animalData, userId) {
   const animal = {
     name: animalData.name,
     years: animalData.years,
@@ -10,6 +10,7 @@ async function create(animalData) {
     location: animalData.location,
     description: animalData.description,
     donations: animalData.donations,
+    owner: userId,
   };
   const result = await Animal.create(animal);
   console.log(result);
@@ -21,17 +22,23 @@ async function getAll() {
   return Animal.find({}).lean();
 }
 
-async function getById(id){
-  return Animal.findById(id).lean()
+async function getById(id) {
+  return Animal.findById(id).lean();
 }
 
-
-async function findAnimal(location){
-  return  Animal.find({ location: { $regex: location, $options: 'i' }}).lean()
+async function findAnimal(location) {
+  return Animal.find({ location: { $regex: location, $options: "i" } }).lean();
 }
+
+async function edit(id, data) {
+  return Animal.updateOne({ _id: id }, { $set: data }, { runValidators: true });
+}
+
 module.exports = {
   create,
   getAll,
   getById,
   findAnimal,
+  edit,
+  deleteAnimal,
 };

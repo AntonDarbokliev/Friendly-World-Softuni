@@ -1,7 +1,7 @@
 const animalController = require("express").Router();
-const Animal = require("../models/Animal.js");
-const { create, getAll, findAnimal } = require("../services/animalService.js");
+const { create, getAll, findAnimal, edit, } = require("../services/animalService.js");
 const { getById } = require("../services/animalService.js");
+const { errorHelper } = require("../utils/errorHelpers.js");
 
 //Create
 
@@ -13,7 +13,7 @@ animalController.get("/create", (req, res) => {
 
 animalController.post("/create", async (req, res) => {
   try {
-    const result = await create(req.body);
+    await create(req.body,req.user._id);
     res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -66,5 +66,42 @@ animalController.get("/search", async (req, res) => {
     console.log(err);
   }
 });
+
+animalController.get("/:id/edit", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const animal = await getById(id)
+   
+    res.render("edit", {
+      title: "Animal Edit",
+      animal
+    });
+  } catch (err) {
+    const errors = errorHelper(err)
+    res.render("edit", {
+      title: "Animal Edit",
+      animal,
+      errors
+    });
+  }
+});
+
+animalController.post("/:id/edit", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const animalData = req.body
+    await edit(id,animalData)
+    res.redirect(`/animal/${id}/details`)
+   
+  } catch (err) {
+    const errors = errorHelper(err)
+    res.render("edit", {
+      title: "Animal Edit",
+      errors
+    });
+  }
+});
+
+
 
 module.exports = animalController;
