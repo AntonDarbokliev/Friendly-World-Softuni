@@ -9,7 +9,11 @@ userController.get("/register", async (req, res) => {
       title: "Register",
     });
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('register',{
+      title : 'Register',
+      errors
+    })
   }
 });
 
@@ -33,7 +37,11 @@ userController.get("/login", async (req, res) => {
       title: "Login",
     });
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('login',{
+      title : 'Login',
+      errors
+    })
   }
 });
 
@@ -49,6 +57,11 @@ userController.post("/login", async (req, res) => {
       errors
     })
   }
+});
+
+userController.get("/logout", async (req, res) => {
+  res.clearCookie('auth')
+  res.redirect('/')
 });
 
 module.exports = userController;

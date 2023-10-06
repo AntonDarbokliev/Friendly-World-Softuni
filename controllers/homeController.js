@@ -11,7 +11,11 @@ homeController.get("/", async (req, res) => {
       animals
     });
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('home',{
+      title : 'Home',
+      errors
+    })
   }
 });
 

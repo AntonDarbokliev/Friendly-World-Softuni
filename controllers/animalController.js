@@ -17,7 +17,11 @@ animalController.post("/create",isAuthorized, async (req, res) => {
     await create(req.body,req.user._id);
     res.redirect("/");
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('create',{
+      title : 'Create',
+      errors
+    });
   }
 });
 
@@ -57,7 +61,9 @@ animalController.get("/dashboard", async (req, res) => {
       animals,
     });
   } catch (err) {
-    console.log(err);
+    res.render("dashboard", {
+      title: "Dashboard",
+    });
   }
 });
 
@@ -76,7 +82,9 @@ animalController.get("/search", async (req, res) => {
       animals
     });
   } catch (err) {
-    console.log(err);
+    res.render("search", {
+      title: "Animal Search",
+    });
   }
 });
 
@@ -138,7 +146,6 @@ try{
   res.render('details',{
     title : 'Details',
     errors,
-    animal
   })
 }
 })
