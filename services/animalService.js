@@ -23,7 +23,7 @@ async function getAll() {
 }
 
 async function getById(id) {
-  return Animal.findById(id).lean();
+  return Animal.findById(id).lean().populate('owner');
 }
 
 async function findAnimal(location) {

@@ -25,12 +25,19 @@ animalController.post("/create", async (req, res) => {
 animalController.get("/:id/details", async (req, res) => {
   try {
     const animal = await getById(req.params.id);
+    const isOwner = req.user?._id == animal.owner._id
+    console.log(isOwner);
     res.render("details", {
       title: "Animal Details",
       animal,
+      isOwner
     });
   } catch (err) {
-    console.log(err);
+    const errors = errorHelper(err)
+    res.render('details',{
+      title : 'Details',
+      errors
+    });
   }
 });
 

@@ -30,14 +30,17 @@
                         </table>
                         <p>Description: <span id="details-description">{{description}}</span></p>
                     </div>
+                    {{/with}}
 
                     <!--Edit and Delete are only for creator-->
                     <div id="action-buttons">
-                        <a href="/animal/{{_id}}/edit" id="edit-btn">Edit</a>
-                        <a href="/animal/{{_id}}/delete" id="delete-btn">Delete</a>
-                        <a href="/animal/{{_id}}/donate" id="donation-btn">Donation</a>
+                        {{#if isOwner}}
+                        <a href="/animal/{{animal._id}}/edit" id="edit-btn">Edit</a>
+                        <a href="/animal/{{animal._id}}/delete" id="delete-btn">Delete</a>
+                        {{else}}
+                        <a href="/animal/{{animal._id}}/donate" id="donation-btn">Donation</a>
                         <p id="already-donated">You already donated!</p>
-                    {{/with}}
+                        {{/if}}
 
                     </div>
                 </div>
