@@ -34,6 +34,10 @@ async function edit(id, data) {
   return Animal.updateOne({ _id: id }, { $set: data }, { runValidators: true });
 }
 
+async function deleteAnimal(id) {
+  return Animal.findByIdAndDelete(id);
+}
+
 module.exports = {
   create,
   getAll,

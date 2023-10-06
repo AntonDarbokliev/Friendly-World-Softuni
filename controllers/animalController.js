@@ -1,5 +1,5 @@
 const animalController = require("express").Router();
-const { create, getAll, findAnimal, edit, } = require("../services/animalService.js");
+const { create, getAll, findAnimal, edit, deleteAnimal} = require("../services/animalService.js");
 const { getById } = require("../services/animalService.js");
 const { errorHelper } = require("../utils/errorHelpers.js");
 
@@ -102,6 +102,15 @@ animalController.post("/:id/edit", async (req, res) => {
   }
 });
 
+animalController.get('/:id/delete',async (req,res) => {
+  const id = req.params.id
+try{
+  await deleteAnimal(id)
+  res.redirect('/animal/dashboard')
+}catch(err){
+  res.redirect(`/animal/${id}/details`)
+}
+})
 
 
 module.exports = animalController;
