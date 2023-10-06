@@ -19,8 +19,16 @@ async function auth(req, res, next) {
 }
 }
 
+async function isAuthorized(req,res,next){
+    if(!req.user){
+        res.redirect('/user/login')
+    }
+    next()
+}
+
 
 
 module.exports = {
   auth,
+  isAuthorized
 };

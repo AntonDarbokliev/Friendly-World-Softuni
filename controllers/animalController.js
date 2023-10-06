@@ -1,17 +1,18 @@
 const animalController = require("express").Router();
+const { isAuthorized } = require("../middlewares/authMiddleware.js");
 const { create, getAll, findAnimal, edit, deleteAnimal, donate} = require("../services/animalService.js");
 const { getById } = require("../services/animalService.js");
 const { errorHelper } = require("../utils/errorHelpers.js");
 
 //Create
 
-animalController.get("/create", (req, res) => {
+animalController.get("/create",isAuthorized, (req, res) => {
   res.render("create", {
     title: "Add animal",
   });
 });
 
-animalController.post("/create", async (req, res) => {
+animalController.post("/create",isAuthorized, async (req, res) => {
   try {
     await create(req.body,req.user._id);
     res.redirect("/");
@@ -26,8 +27,8 @@ animalController.get("/:id/details", async (req, res) => {
   try {
     const animal = await getById(req.params.id);
     const isOwner = req.user?._id == animal.owner._id
-    let hasDonated;
-    if (JSON.parse(JSON.stringify(animal.donations)).includes(req.user._id)) {
+    let hasDonated = false;
+    if (JSON.parse(JSON.stringify(animal.donations)).includes(req.user?._id)) {
         hasDonated = true
     }
 
@@ -79,7 +80,7 @@ animalController.get("/search", async (req, res) => {
   }
 });
 
-animalController.get("/:id/edit", async (req, res) => {
+animalController.get("/:id/edit",isAuthorized,async (req, res) => {
   try {
     const id = req.params.id;
     const animal = await getById(id)
@@ -98,7 +99,7 @@ animalController.get("/:id/edit", async (req, res) => {
   }
 });
 
-animalController.post("/:id/edit", async (req, res) => {
+animalController.post("/:id/edit",isAuthorized, async (req, res) => {
   try {
     const id = req.params.id;
     const animalData = req.body
@@ -114,7 +115,7 @@ animalController.post("/:id/edit", async (req, res) => {
   }
 });
 
-animalController.get('/:id/delete',async (req,res) => {
+animalController.get('/:id/delete',isAuthorized, async (req,res) => {
   const id = req.params.id
 try{
   await deleteAnimal(id)
@@ -125,7 +126,7 @@ try{
 })
 
 
-animalController.get('/:id/donate',async (req,res) => {
+animalController.get('/:id/donate', isAuthorized,async (req,res) => {
   const animalId = req.params.id
   const userId = req.user._id 
 try{
