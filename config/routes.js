@@ -9,4 +9,7 @@ module.exports = (app) => {
   app.use(homeController);
   app.use("/animal", animalController);
   app.use("/user", userController);
+  app.get('*',(req,res) =>{
+    res.render('404')
+  })
 };
